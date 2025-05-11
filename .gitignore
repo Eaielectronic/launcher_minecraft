@@ -1,0 +1,9 @@
+# Répertoires à ignorer
+/build/
+/node_modules/
+/electron-cache/
+# Fichiers spécifiques à macOS
+.DS_Store
+/dist/
+# Fichier d'environnement
+.env
