@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Launcher Pro</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="theme-dark">
+  <!-- Barre de titre personnalisée -->
+  <div class="titlebar">
+    <div class="titlebar-title">Minecraft Launcher Pro</div>
+    <div class="titlebar-controls">
+      <button id="min-btn" title="Réduire"><i class="fas fa-window-minimize"></i></button>
+      <button id="max-btn" title="Agrandir"><i class="fas fa-window-maximize"></i></button>
+      <button id="close-btn" title="Fermer"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+  
+  <!-- Container principal -->
+  <div class="container">
+    <!-- Animation de fond -->
+    <div class="background-animation"></div>
+    
+    <!-- Écran de connexion -->
+    <div id="login-screen" class="screen">
+      <div class="logo">
+        <img src="../assets/images/logo.png" alt="Minecraft Launcher Pro Logo">
+      </div>
+      
+      <div class="login-container">
+        <h2>Connexion</h2>
+        
+        <button id="login-button" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">
+          <i class="fab fa-microsoft"></i> Se connecter avec Microsoft
+        </button>
+        
+        <div style="text-align: center; margin: 15px 0; color: #999;">ou</div>
+        
+        <div style="display: flex; margin-bottom: 15px;">
+          <input type="text" id="offline-username" placeholder="Nom d'utilisateur" style="flex: 1; margin-right: 10px; padding: 10px;">
+          <button id="offline-button" class="btn btn-secondary">
+            Hors ligne
+          </button>
+        </div>
+        
+        <div id="login-error" class="status" style="color: #e74c3c; display: none;"></div>
+      </div>
+    </div>
+    
+    <!-- Écran principal -->
+    <div id="main-screen" class="screen">
+      <div class="sidebar">
+        <div class="profile-section">
+          <div class="profile-avatar">
+            <img id="avatar-display" src="../assets/images/steve.png" alt="Avatar">
+          </div>
+          <div class="profile-info">
+            <h3 id="username-display">Utilisateur</h3>
+            <span id="uuid-display" class="uuid">UUID: N/A</span>
+          </div>
+        </div>
+        
+        <div class="nav-links">
+          <a href="#home" class="active"><i class="fas fa-home"></i> Accueil</a>
+          <a href="#mods"><i class="fas fa-cubes"></i> Mods</a>
+          <a href="#settings"><i class="fas fa-cog"></i> Paramètres</a>
+          <a href="#about"><i class="fas fa-info-circle"></i> À propos</a>
+        </div>
+        
+        <div style="padding: 20px;">
+          <button id="theme-toggle" class="btn btn-small" style="width: 100%; margin-bottom: 10px;">🌙</button>
+          <button id="logoutButton" class="btn btn-secondary btn-small" style="width: 100%;">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+          </button>
+        </div>
+      </div>
+      
+      <div class="content">
+        <!-- Section Accueil -->
+        <div id="home-section" class="content-section active">
+          <h2>Bienvenue sur le launcher</h2>
+          
+          <div class="server-info">
+            <h3>Serveur</h3>
+            <div class="server-status">
+              <span id="server-address">appel.ovh</span>
+              <span id="server-status" class="badge">Vérification...</span>
+            </div>
+          </div>
+          
+          <div class="news-section">
+            <h3>Actualités</h3>
+            <div class="news-container">
+              <div class="news-item">
+                <h4>Bienvenue sur le launcher</h4>
+                <p>Ce launcher vous permet de vous connecter directement au serveur appel.ovh avec tous les mods nécessaires.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="play-container">
+            <div class="mods-status">
+              <span id="mods-status">Vérification des mods...</span>
+            </div>
+            
+            <div class="download-status">
+              <div class="progress-bar">
+                <div id="progress-bar" class="progress" style="width: 0%"></div>
+              </div>
+              <span id="progress-text"></span>
+            </div>
+            
+            <button id="play-button" class="btn btn-play">
+              JOUER
+            </button>
+          </div>
+        </div>
+        
+        <!-- Section Mods -->
+        <div id="mods-section" class="content-section">
+          <h2>Mods installés</h2>
+          
+          <div class="mods-list" id="mods-list">
+            <!-- Les mods seront ajoutés dynamiquement ici -->
+          </div>
+        </div>
+        
+        <!-- Section Paramètres -->
+        <div id="settings-section" class="content-section">
+          <h2>Paramètres</h2>
+          
+          <div class="settings-group">
+            <h3>Paramètres de Minecraft</h3>
+            
+            <div class="setting-item">
+              <label>Mémoire RAM allouée</label>
+              <div class="slider-container">
+                <input type="range" id="memory-slider" min="1024" max="8192" step="512" value="2048">
+                <span id="memory-value">2 GB</span>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <label>Dossier de jeu</label>
+              <div class="input-with-button">
+                <input type="text" id="game-directory" readonly>
+                <button id="browse-directory" class="btn btn-secondary btn-small">Parcourir</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-group">
+            <h3>Paramètres du launcher</h3>
+            
+            <div class="setting-item">
+              <label>Thème</label>
+              <select id="theme-select">
+                <option value="dark">Sombre</option>
+                <option value="light">Clair</option>
+              </select>
+            </div>
+            
+            <div class="setting-item">
+              <label>Lancer automatiquement au démarrage</label>
+              <label class="switch">
+                <input type="checkbox" id="auto-launch">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="setting-item">
+              <label>Fermer le launcher au lancement du jeu</label>
+              <label class="switch">
+                <input type="checkbox" id="close-on-launch" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="settings-actions">
+            <button id="reset-settings" class="btn btn-secondary">Réinitialiser</button>
+            <button id="save-settings" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </div>
+        
+        <!-- Section À propos -->
+        <div id="about-section" class="content-section">
+          <h2>À propos</h2>
+          
+          <div class="about-content">
+            <p>Minecraft Launcher Pro est un launcher personnalisé pour faciliter la connexion au serveur appel.ovh.</p>
+            <p>Version: 1.0.0</p>
+            <p>Créé avec ❤️ pour la communauté Minecraft.</p>
+            
+            <h3>Remerciements</h3>
+            <p>Ce launcher utilise les technologies suivantes:</p>
+            <ul>
+              <li>Electron</li>
+              <li>minecraft-launcher-core</li>
+              <li>authlib-injector</li>
+              <li>Et bien d'autres...</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="renderer.js"></script>
+</body>
+</html>

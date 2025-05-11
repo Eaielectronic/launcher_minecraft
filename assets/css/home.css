@@ -1,0 +1,268 @@
+/* Ajoutez ces règles au début de votre fichier */
+
+/* Styles critiques pour l'affichage */
+#home-screen {
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  overflow: hidden;
+}
+
+#home-screen.visible {
+  display: flex !important;
+}
+
+/* S'assurer que l'écran de connexion est masqué quand home-screen est visible */
+#home-screen.visible + #login-screen,
+#home-screen.visible ~ [id*="login"] {
+  display: none !important;
+}
+
+/* Assurez-vous que l'animation est visible */
+.home-element.visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Reste de vos styles... */
+
+/* Styles pour la page d'accueil après connexion */
+
+#home-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  margin-right: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid #4CAF50;
+}
+
+.user-details h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.status:before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status.online:before {
+  background-color: #4CAF50;
+}
+
+.main-nav {
+  display: flex;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  margin: 0 10px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0.8;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+.nav-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+  opacity: 1;
+}
+
+.content-area {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.content-screen {
+  display: none;
+}
+
+.content-screen.active {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.server-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.server-card:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+}
+
+.server-card h2 {
+  margin-top: 5px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.server-status {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-indicator.online {
+  background-color: #4CAF50;
+  box-shadow: 0 0 10px #4CAF50;
+}
+
+.player-count {
+  font-size: 14px;
+  color: #ddd;
+}
+
+.server-description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #eee;
+}
+
+.play-btn {
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.play-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(76, 175, 80, 0.6);
+}
+
+.play-btn:active {
+  transform: translateY(1px);
+}
+
+.recent-activity {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.recent-activity h3 {
+  font-size: 18px;
+  margin-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+}
+
+.activity-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 14px;
+}
+
+.activity-list li:last-child {
+  border-bottom: none;
+}
+
+/* Animations */
+.home-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.home-element.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content-screen.active {
+    grid-template-columns: 1fr;
+  }
+  
+  .main-nav {
+    display: none;
+  }
+}

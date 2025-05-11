@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft Launcher</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <!-- autres balises head... -->
+</head>
+<body>
+  <!-- Ajoutez ce code dans votre fichier HTML, après la section de connexion -->
+
+  <div id="home-screen" style="display: none;">
+    <header class="home-header home-element">
+      <div class="user-info">
+        <img id="user-avatar" src="assets/images/steve.png" alt="Avatar" class="avatar">
+        <div class="user-details">
+          <h3>Bienvenue, <span id="username-display">Joueur</span></h3>
+          <span class="status online">Connecté</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <button class="nav-btn active home-element" data-screen="play">Jouer</button>
+        <button class="nav-btn home-element" data-screen="mods">Mods</button>
+        <button class="nav-btn home-element" data-screen="settings">Paramètres</button>
+        <button class="nav-btn home-element" id="logout-btn">Déconnexion</button>
+      </nav>
+    </header>
+    
+    <div class="content-area">
+      <!-- Section Jouer -->
+      <div id="play-screen" class="content-screen active">
+        <div class="server-card main-server home-element">
+          <h2>Serveur Principal</h2>
+          <div class="server-status">
+            <span class="status-indicator online"></span>
+            <span class="player-count">24 joueurs en ligne</span>
+          </div>
+          <p class="server-description">Rejoignez le serveur principal de VirtuaCore et explorez un vaste monde rempli d'aventures!</p>
+          <button id="launch-btn" class="play-btn">JOUER MAINTENANT</button>
+        </div>
+        
+        <div class="recent-activity home-element">
+          <h3>Activité récente</h3>
+          <ul class="activity-list">
+            <li>Vous avez joué pendant 2h hier</li>
+            <li>Nouvelle mise à jour disponible: v1.2.5</li>
+            <li>3 de vos amis sont en ligne</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Autres sections (mods, paramètres, etc.) -->
+      <div id="mods-screen" class="content-screen">
+        <!-- Contenu des mods... -->
+      </div>
+      
+      <div id="settings-screen" class="content-screen">
+        <!-- Contenu des paramètres... -->
+      </div>
+    </div>
+  </div>
+
+ 
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "minecraft": "1.20.1",
+  "forge": "43.2.0",
+  "mods": [
+    {
+      "name": "JEI",
+      "id": "jei",
+      "version": "11.2.0.254",
+      "required": true,
+      "url": "https://votre-serveur.com/mods/jei-11.2.0.254.jar",
+      "checksum": "sha256:abc123..."
+    },
+    {
+      "name": "Create",
+      "id": "create",
+      "version": "0.5.0.i",
+      "required": true,
+      "url": "https://votre-serveur.com/mods/create-0.5.0.i.jar",
+      "checksum": "sha256:def456..."
+    }
+  ]
+}

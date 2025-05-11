@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launcher Minecraft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/modern-style.css">
+</head>
+<body>
+  <!-- Barre de titre personnalisée -->
+  <div class="title-bar">
+    <div class="logo">
+      <img src="./assets/images/minecraft-icon.png" alt="Logo" width="24">
+      <span>Launcher Minecraft</span>
+    </div>
+    <div class="window-controls">
+      <button id="minimize-btn" class="window-control">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button id="maximize-btn" class="window-control">
+        <i class="fas fa-expand"></i>
+      </button>
+      <button id="close-btn" class="window-control">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Écran de connexion -->
+  <div id="login-screen">
+    <div class="login-content">
+      <div class="login-logo">
+        <img src="./assets/images/minecraft-logo.png" alt="Minecraft">
+      </div>
+      <h1>Bienvenue sur le launcher</h1>
+      <p>Connectez-vous pour commencer votre aventure</p>
+      
+      <div class="login-buttons">
+        <button id="microsoft-login-btn" class="login-btn microsoft-btn">
+          <i class="fab fa-microsoft"></i> Se connecter avec Microsoft
+        </button>
+        
+        <div class="login-separator">
+          <span>OU</span>
+        </div>
+        
+        <div class="offline-login-form">
+          <div class="form-group">
+            <label for="offline-username">Nom d'utilisateur</label>
+            <input type="text" id="offline-username" placeholder="Entrez votre pseudo">
+          </div>
+          <button id="offline-login-btn" class="login-btn offline-btn">
+            <i class="fas fa-user"></i> Jouer en mode hors ligne
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay de chargement -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <p>Chargement en cours...</p>
+  </div>
+
+  <!-- Conteneur principal -->
+  <div id="app-container" style="display: none;">
+    <!-- Barre latérale -->
+    <div class="sidebar">
+      <div class="user-profile">
+        <div class="avatar">
+          <img id="user-avatar" src="./assets/images/steve.png" alt="Avatar">
+        </div>
+        <div class="user-info">
+          <h3 id="username-display">Utilisateur</h3>
+          <p class="account-type">Compte Microsoft</p>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="#" data-section="home" class="nav-item active">
+          <i class="fas fa-home"></i>
+          <span>Accueil</span>
+        </a>
+        <a href="#" data-section="mods" class="nav-item">
+          <i class="fas fa-puzzle-piece"></i>
+          <span>Mods</span>
+        </a>
+        <a href="#" data-section="settings" class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span>Paramètres</span>
+        </a>
+        <a href="#" data-section="chat" class="nav-item">
+          <i class="fas fa-comments"></i>
+          <span>Chat</span>
+        </a>
+        <a href="#" data-section="about" class="nav-item">
+          <i class="fas fa-info-circle"></i>
+          <span>À propos</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Déconnexion</span>
+        </button>
+        <div class="version">Launcher v1.0</div>
+      </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+      <!-- Section Accueil -->
+      <section id="home-section" class="content-section active">
+        <header>
+          <h1>Tableau de bord</h1>
+          <p>Bienvenue sur votre launcher Minecraft</p>
+        </header>
+
+        <div class="game-banner">
+          <h2>Minecraft Java Edition</h2>
+          <p>Version 1.19.4 • Forge 45.0.43</p>
+          <button id="launch-btn" class="play-btn">
+            <i class="fas fa-play"></i> JOUER
+          </button>
+        </div>
+
+        <div class="status-grid">
+          <div class="status-card">
+            <h3>Statut du serveur</h3>
+            <div id="server-status" class="status">
+              <i class="fas fa-circle"></i> Vérification...
+            </div>
+          </div>
+
+          <div class="status-card">
+            <h3>Statut des mods</h3>
+            <div id="mods-status" class="status">
+              <i class="fas fa-circle"></i> Vérification...
+            </div>
+          </div>
+        </div>
+
+        <div class="launch-progress">
+          <h3>Progression du lancement</h3>
+          <div class="progress-bar-container">
+            <div id="launch-progress-bar" class="progress-bar"></div>
+          </div>
+          <p id="launch-status">En attente du lancement...</p>
+        </div>
+      </section>
+
+      <!-- Section Mods -->
+      <section id="mods-section" class="content-section">
+        <header>
+          <h1>Gestionnaire de mods</h1>
+          <p>Installez et gérez vos mods Minecraft</p>
+        </header>
+
+        <div class="mods-tabs">
+          <button class="tab-btn active" data-tab="installed-mods">Installés</button>
+          <button class="tab-btn" data-tab="available-mods">Disponibles</button>
+          <button class="tab-btn" data-tab="search-mods">Rechercher</button>
+        </div>
+
+        <div class="tab-content active" id="installed-mods">
+          <div class="mods-header">
+            <h3>Mods installés</h3>
+            <div class="mods-actions">
+              <button id="refresh-mods-btn" class="refresh-btn">
+                <i class="fas fa-sync-alt"></i> Actualiser
+              </button>
+              <button id="open-mods-folder-btn" class="folder-btn">
+                <i class="fas fa-folder-open"></i> Ouvrir dossier
+              </button>
+            </div>
+          </div>
+
+          <div class="mods-list" id="installed-mods-list">
+            <!-- Liste des mods installés -->
+            <div class="mod-item">
+              <div class="mod-icon">
+                <img src="./assets/images/mods/optifine.png" alt="OptiFine">
+              </div>
+              <div class="mod-info">
+                <h4 class="mod-name">OptiFine</h4>
+                <p class="mod-description">Amélioration des performances et des graphiques</p>
+                <div class="mod-meta">
+                  <span class="mod-version">HD_U_I4</span>
+                  <span class="mod-author">sp614x</span>
+                </div>
+              </div>
+              <div class="mod-actions">
+                <button class="mod-config-btn" data-mod="optifine">
+                  <i class="fas fa-cog"></i>
+                </button>
+                <button class="mod-disable-btn" data-mod="optifine">
+                  <i class="fas fa-toggle-on"></i>
+                </button>
+                <button class="mod-delete-btn" data-mod="optifine">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="mod-item">
+              <div class="mod-icon">
+                <img src="./assets/images/mods/jei.png" alt="JEI">
+              </div>
+              <div class="mod-info">
+                <h4 class="mod-name">Just Enough Items (JEI)</h4>
+                <p class="mod-description">Affichage des recettes et utilisations des objets</p>
+                <div class="mod-meta">
+                  <span class="mod-version">9.7.0</span>
+                  <span class="mod-author">mezz</span>
+                </div>
+              </div>
+              <div class="mod-actions">
+                <button class="mod-config-btn" data-mod="jei">
+                  <i class="fas fa-cog"></i>
+                </button>
+                <button class="mod-disable-btn" data-mod="jei">
+                  <i class="fas fa-toggle-on"></i>
+                </button>
+                <button class="mod-delete-btn" data-mod="jei">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mods-footer">
+            <button id="add-mod-btn" class="add-mod-btn">
+              <i class="fas fa-plus"></i> Ajouter un mod
+            </button>
+          </div>
+        </div>
+
+        <div class="tab-content" id="available-mods">
+          <div class="mods-header">
+            <h3>Mods disponibles</h3>
+            <div class="mod-sort">
+              <label for="mod-sort-select">Trier par:</label>
+              <select id="mod-sort-select" class="mod-sort-select">
+                <option value="popularity">Popularité</option>
+                <option value="name">Nom</option>
+                <option value="updated">Récemment mis à jour</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mods-categories">
+            <button class="category-btn active" data-category="all">Tous</button>
+            <button class="category-btn" data-category="utility">Utilitaires</button>
+            <button class="category-btn" data-category="performance">Performance</button>
+            <button class="category-btn" data-category="content">Contenu</button>
+          </div>
+
+          <div class="mods-grid" id="available-mods-grid">
+            <!-- Mods disponibles - sera rempli dynamiquement -->
+          </div>
+
+          <div class="mods-pagination">
+            <button class="pagination-btn" id="prev-page-btn">
+              <i class="fas fa-chevron-left"></i> Précédent
+            </button>
+            <span class="page-indicator">Page <span id="current-page">1</span>/<span id="total-pages">5</span></span>
+            <button class="pagination-btn" id="next-page-btn">
+              Suivant <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="tab-content" id="search-mods">
+          <div class="search-container">
+            <div class="search-input-container">
+              <input type="text" id="mod-search-input" placeholder="Rechercher un mod..." class="search-input">
+              <button id="mod-search-btn" class="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="search-results" id="mod-search-results">
+            <!-- Résultats de recherche - sera rempli dynamiquement -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Paramètres -->
+      <section id="settings-section" class="content-section">
+        <header>
+          <h1>Paramètres</h1>
+          <p>Configurez votre launcher et votre jeu</p>
+        </header>
+
+        <div class="settings-tabs">
+          <button class="tab-btn active" data-tab="game-settings">Jeu</button>
+          <button class="tab-btn" data-tab="launcher-settings">Launcher</button>
+          <button class="tab-btn" data-tab="java-settings">Java</button>
+        </div>
+
+        <div class="tab-content active" id="game-settings">
+          <div class="settings-card">
+            <h3>Paramètres du jeu</h3>
+            
+            <div class="settings-group">
+              <label for="game-directory" class="settings-label">Répertoire du jeu:</label>
+              <div class="directory-selector">
+                <input type="text" id="game-directory" class="settings-input" readonly>
+                <button id="select-directory-btn" class="settings-btn">
+                  <i class="fas fa-folder-open"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <label for="game-resolution" class="settings-label">Résolution:</label>
+              <div class="resolution-selector">
+                <select id="game-resolution" class="settings-select">
+                  <option value="auto">Automatique</option>
+                  <option value="1280x720">1280x720</option>
+                  <option value="1920x1080">1920x1080</option>
+                  <option value="2560x1440">2560x1440</option>
+                  <option value="custom">Personnalisé</option>
+                </select>
+                <div class="custom-resolution" id="custom-resolution" style="display: none;">
+                  <input type="number" id="width-input" class="dimension-input" min="640" max="7680" value="1280">
+                  <span class="dimension-separator">×</span>
+                  <input type="number" id="height-input" class="dimension-input" min="480" max="4320" value="720">
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <label class="settings-label">Plein écran:</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="fullscreen-toggle" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="launcher-settings">
+          <div class="settings-card">
+            <h3>Paramètres du launcher</h3>
+            
+            <div class="settings-group">
+              <label for="launcher-theme" class="settings-label">Thème:</label>
+              <select id="launcher-theme" class="settings-select">
+                <option value="dark">Sombre (par défaut)</option>
+                <option value="light">Clair</option>
+                <option value="minecraft">Style Minecraft</option>
+              </select>
+            </div>
+
+            <div class="settings-group">
+              <label class="settings-label">Lancer au démarrage:</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="launcher-startup">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-group">
+              <label class="settings-label">Fermer le launcher au lancement du jeu:</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="close-after-launch">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="java-settings">
+          <div class="settings-card">
+            <h3>Paramètres Java</h3>
+            
+            <div class="settings-group">
+              <label for="memory-slider" class="settings-label">Mémoire allouée: <span id="memory-value">2 Go</span></label>
+              <input type="range" id="memory-slider" class="memory-slider" min="1" max="16" step="1" value="2">
+              <div class="memory-scale">
+                <span>1 Go</span>
+                <span>8 Go</span>
+                <span>16 Go</span>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <label for="java-path" class="settings-label">Chemin vers Java:</label>
+              <div class="directory-selector">
+                <input type="text" id="java-path" class="settings-input" readonly>
+                <button id="select-java-btn" class="settings-btn">
+                  <i class="fas fa-folder-open"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <label for="java-args" class="settings-label">Arguments Java:</label>
+              <textarea id="java-args" class="settings-textarea" placeholder="-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button id="save-settings-btn" class="save-btn">
+            <i class="fas fa-save"></i> Enregistrer
+          </button>
+          <button id="reset-settings-btn" class="reset-btn">
+            <i class="fas fa-undo"></i> Réinitialiser
+          </button>
+        </div>
+      </section>
+
+      <!-- Section Chat -->
+      <section id="chat-section" class="content-section">
+        <header>
+          <h1>Chat communautaire</h1>
+          <p>Discutez avec d'autres joueurs</p>
+        </header>
+
+        <div class="chat-container">
+          <div class="chat-sidebar">
+            <div class="chat-search">
+              <div class="search-input-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="chat-search" placeholder="Rechercher..." class="search-input">
+              </div>
+            </div>
+
+            <div class="chat-tabs">
+              <button class="chat-tab active" data-tab="conversations">Conversations</button>
+              <button class="chat-tab" data-tab="online">En ligne</button>
+            </div>
+
+            <div class="chat-list active" id="conversations-list">
+              <div class="chat-item active" data-chat="global">
+                <div class="chat-avatar">
+                  <img src="./assets/images/globe-icon.png" alt="Global">
+                </div>
+                <div class="chat-info">
+                  <div class="chat-name">Chat global</div>
+                  <div class="chat-last-message">Bienvenue sur le serveur!</div>
+                </div>
+                <div class="chat-meta">
+                  <div class="chat-time">12:30</div>
+                  <div class="chat-badge">5</div>
+                </div>
+              </div>
+
+              <div class="chat-item" data-chat="mods">
+                <div class="chat-avatar">
+                  <img src="./assets/images/mods-icon.png" alt="Mods">
+                </div>
+                <div class="chat-info">
+                  <div class="chat-name">Support mods</div>
+                  <div class="chat-last-message">Comment installer OptiFine?</div>
+                </div>
+                <div class="chat-meta">
+                  <div class="chat-time">Hier</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-list" id="online-list">
+              <!-- Liste des joueurs en ligne - sera remplie dynamiquement -->
+            </div>
+          </div>
+
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="current-chat-info">
+                <div class="current-chat-avatar">
+                  <img src="./assets/images/globe-icon.png" alt="Global" id="current-chat-avatar">
+                </div>
+                <div class="current-chat-details">
+                  <div class="current-chat-name" id="current-chat-name">Chat global</div>
+                  <div class="current-chat-status" id="current-chat-status">42 joueurs connectés</div>
+                </div>
+              </div>
+              <div class="chat-actions">
+                <button class="chat-action-btn" id="chat-refresh-btn">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+              <!-- Messages seront ajoutés dynamiquement -->
+              <div class="message-date">Aujourd'hui</div>
+              
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="./assets/images/admin-avatar.png" alt="Admin">
+                </div>
+                <div class="message-content">
+                  <div class="message-info">
+                    <span class="message-author admin">Administrateur</span>
+                    <span class="message-time">10:15</span>
+                  </div>
+                  <div class="message-text">Bienvenue sur le chat du serveur! N'hésitez pas à poser vos questions ici.</div>
+                </div>
+              </div>
+
+              <div class="message own-message">
+                <div class="message-avatar">
+                  <img id="chat-user-avatar" src="./assets/images/steve.png" alt="Vous">
+                </div>
+                <div class="message-content">
+                  <div class="message-info">
+                    <span class="message-author">Vous</span>
+                    <span class="message-time">10:30</span>
+                  </div>
+                  <div class="message-text">Bonjour tout le monde! Je suis nouveau ici.</div>
+                </div>
+              </div>
+
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="./assets/images/player-avatar.png" alt="Joueur">
+                </div>
+                <div class="message-content">
+                  <div class="message-info">
+                    <span class="message-author">CraftMaster</span>
+                    <span class="message-time">10:32</span>
+                  </div>
+                  <div class="message-text">Salut et bienvenue! Tu joues depuis longtemps à Minecraft?</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-input-container">
+              <div class="chat-input-tools">
+                <button class="chat-tool-btn" id="emoji-btn">
+                  <i class="far fa-smile"></i>
+                </button>
+              </div>
+              <textarea id="chat-input" class="chat-input" placeholder="Tapez votre message..." rows="1"></textarea>
+              <button id="send-message-btn" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section À propos -->
+      <section id="about-section" class="content-section">
+        <header>
+          <h1>À propos</h1>
+          <p>Informations sur le launcher</p>
+        </header>
+
+        <div class="about-container">
+          <div class="about-logo">
+            <img src="./assets/images/minecraft-logo.png" alt="Minecraft Logo">
+          </div>
+
+          <div class="about-text">
+            <h2>Launcher Minecraft</h2>
+            <p class="version-info">Version: 1.0.0</p>
+            
+            <div class="about-section">
+              <h3><i class="fas fa-info-circle"></i> À propos du launcher</h3>
+              <p>Ce launcher a été conçu pour offrir une expérience fluide et agréable aux joueurs de Minecraft. Il permet de gérer facilement vos mods, vos paramètres et de vous connecter à notre serveur.</p>
+              <p>Développé avec les dernières technologies, ce launcher s'efforce de vous fournir la meilleure expérience possible pour jouer à Minecraft.</p>
+            </div>
+
+            <div class="about-section">
+              <h3><i class="fas fa-server"></i> Notre serveur</h3>
+              <p>Rejoignez notre communauté sur le serveur! Nous proposons une expérience de jeu unique avec des mods soigneusement sélectionnés et un environnement accueillant.</p>
+              <ul class="server-info">
+                <li><strong>Adresse:</strong> play.minecraft-server.com</li>
+                <li><strong>Version:</strong> 1.19.4 (Forge)</li>
+                <li><strong>Mode:</strong> Survie modée</li>
+              </ul>
+            </div>
+
+            <div class="about-section">
+              <h3><i class="fas fa-users"></i> Communauté</h3>
+              <p>Rejoignez notre communauté sur les réseaux sociaux et restez informé des dernières nouvelles et mises à jour:</p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-discord"></i> Discord</a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+              </div>
+            </div>
+
+            <div class="about-section">
+              <h3><i class="fas fa-code"></i> Technologies</h3>
+              <p>Ce launcher est construit avec:</p>
+              <ul class="tech-list">
+                <li>Electron</li>
+                <li>JavaScript</li>
+                <li>HTML/CSS</li>
+                <li>Node.js</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="about-footer">
+            <p>© 2025 Launcher Minecraft. Tous droits réservés.</p>
+            <p class="disclaimer">Ce launcher n'est pas affilié à Mojang ou Microsoft.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./renderer.js"></script>
+</body>
+</html>
